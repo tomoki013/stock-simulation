@@ -87,6 +87,12 @@
         clockInterval = setInterval(advanceTime, intervalSeconds);
     }
 
+    // 現在日時と時刻の更新を停止させる関数
+    function stopClock () {
+        clearInterval(clockInterval);
+        stopStockPriceUpdates();
+    }
+
     // 時刻の進行処理
     function advanceTime() {
         currentMinute += 15;
@@ -156,6 +162,7 @@
     // 株の購入処理
     function buyStock(index) {
         if (!isMarketOpen) {
+            stopClock();
             showPopup("場外時間中は株を購入できません。");
             return;
         }
@@ -165,6 +172,7 @@
         const totalCost = amount * company.stockPrice;
 
         if (isNaN(amount) || amount <= 0) {
+            stopClock();
             showPopup("株数は0以上を入力して下さい。");
             return;
         }
@@ -175,8 +183,10 @@
             company.buyPrice = company.stockPrice;
             company.totalStockValueAtBuy = company.shares * company.stockPrice;
             updateDisplay(index);
+            stopClock();
             showPopup(`${company.name} の株を ${amount} 株、1株 ${company.stockPrice.toLocaleString()} 円で購入しました。合計： ${totalCost.toLocaleString()} 円`);
         } else {
+            stopClock();
             showPopup("残高が足りません。");
         }
     }
@@ -184,6 +194,7 @@
     // 株の売却処理
     function sellStock(index) {
         if (!isMarketOpen) {
+            stopClock();
             showPopup("場外時間中は株を売却できません。");
             return;
         }
@@ -193,6 +204,7 @@
         const totalRevenue = amount * company.stockPrice;
 
         if (isNaN(amount) || amount <= 0) {
+            stopClock();
             showPopup("株数は0以上を入力して下さい。");
             return;
         }
@@ -202,8 +214,10 @@
             company.shares -= amount;
             const profit = totalRevenue - (company.buyPrice * amount);
             updateDisplay(index);
+            stopClock();
             showPopup(`${company.name} 売却株数： ${amount} 株 金額： ${totalRevenue.toLocaleString()} 円 利益： ${profit >= 0 ? "+" : ""}${profit.toLocaleString()} 円`);
         } else {
+            stopClock();
             showPopup("保有株数が足りません。");
         }
     }
@@ -244,5 +258,11 @@
         overlay.style.display = 'none';
     }
 
-    closePopupButton.addEventListener('click', closePopup);
+    closePopupButton.addEventListener('click', () => {
+        closePopup();
+        if (isMarketOpen) {
+            startClock();
+        }
+    });
+
 })();
