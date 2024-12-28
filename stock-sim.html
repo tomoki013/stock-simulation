@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<!-- head -->
+<head>
+
+    <!-- metaタグ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- タイトル -->
+    <title>株式シミュレーションゲーム</title>
+
+    <!-- CSSのリンク -->
+    <link rel="stylesheet" href="./css/style.css">
+
+</head>
+
+<!-- body -->
+<body>
+
+    <!-- 株式シミュレーションゲームの外枠 -->
+    <div class="container">
+
+        <!-- 見出し -->
+        <h1>株式シミュレーションゲーム</h1>
+
+        <!-- 現在日時と時刻 -->
+        <div><span id="timeDisplay">09:00</span>ー<span id="dayDisplay">1日目</span></div>
+        <button id="startButton">スタート</button>
+
+        <!-- 各企業の株と情報が挿入される部分 -->
+        <div id="companies"></div>
+        
+        <!-- 残高と総資産 -->
+        <div class="balance_info">
+            <div id="balance">残高：100,000円</div>
+            <div id="totalStockValue">総資産：100,000円</div>
+        </div>
+
+        <!-- ポップアップモ－ダル -->
+        <div id="popupModal">
+            <p id="popupMessage"></p>
+            <button id="closePopupButton">閉じる</button>
+        </div>
+        <div class="overlay" id="overlay"></div>
+        
+     </div>
+
+     <footer>
+        <p>&copy; 2024 Norikumo Seminar, stock-simulator</p>
+     </footer>
+    
+    <!-- JavaScriptのリンク -->
+    <script src="./js/script.js"></script>
+
+</body>
+
+</html>
